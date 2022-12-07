@@ -13,7 +13,7 @@
 
 </div>
 
-![](docs/images/StarkNet-HowMuch-rs.gif)
+![](docs/images/demo.gif)
 
 <details open="open">
 <summary>Table of Contents</summary>
@@ -23,7 +23,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-  - [CLI](#cli)
+  - [Estimate fees on network](#estimate-fees-on-network)
 - [Authors \& contributors](#authors--contributors)
 - [Security](#security)
 - [License](#license)
@@ -48,10 +48,27 @@
 
 ## Usage
 
-### CLI
+```
+How much ?
+
+Usage: howmuch-rs <COMMAND>
+
+Commands:
+  fees  Fees related subcommands
+  help  Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help information
+  -V, --version  Print version information
+```
+
+### Estimate fees on network
 
 ```bash
-
+RUST_LOG=debug howmuch-rs fees estimate-on-network \
+--tx-hash=0x073251e7ff3843c4954aa2e7f38d8c29034e34a1ddbaeb1e62605ec10ca22367 \
+--source-block-number=21410 \
+--destination-block-number=15925
 ```
 
 ## Authors & contributors
