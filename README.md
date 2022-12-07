@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>How Much ?</h1>
+  <h1>🐺 How Much ? 🦀</h1>
   <img src="docs/images/logo.png" height="200">
   <br />
 </div>
@@ -34,7 +34,8 @@
 
 ## About
 
-> StarkNet fees CLI tool
+> A library providing helpers for various StarkNet fees related tasks.
+> It can be used as a library or as a CLI.
 
 ## Getting Started
 
@@ -44,7 +45,9 @@
 
 ### Installation
 
-> **[TODO]**
+```bash
+cargo install howmuch-rs
+```
 
 ## Usage
 
