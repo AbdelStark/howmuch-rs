@@ -2,6 +2,13 @@
 name = "howmuch-rs"
 version = "0.1.0"
 edition = "2021"
+authors = ["Abdelhamid Bakhta <@abdelhamidbakhta>"]
+license = "MIT"
+readme = "README.md"
+documentation = "https://docs.rs/howmuch-rs"
+repository = "https://github.com/abdelhamidbakhta/howmuch-rs"
+homepage = "https://docs.rs/howmuch-rs"
+description = "A library providing helpers for various StarkNet fees related tasks."
 
 [dependencies]
 eyre = "0.6.8"
