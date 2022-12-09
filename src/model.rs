@@ -64,8 +64,8 @@ impl TransactionReceipt {
             steps,
             pedersen,
             range_check,
-            bitwise,
             ecdsa,
+            bitwise,
             ec_op,
         ))
     }
