@@ -50,7 +50,10 @@ pub enum ResourcesUsedCommands {
         #[arg(long, value_name = "SOURCE_NETWORK_GATEWAY_URL", default_value = DEFAULT_SOURCE_NETWORK_GATEWAY_URL)]
         source_network_gateway_url: Option<String>,
 
-        #[arg(long, help="File containing a transaction receipt. Overrides `tx_hash` and `source_network_gateway_url`")]
+        #[arg(
+            long,
+            help = "File containing a transaction receipt. Overrides `tx_hash` and `source_network_gateway_url`"
+        )]
         transaction_file: Option<String>,
 
         #[arg(long, help="Overrides the default steps weight", default_value = DEFAULT_STEPS_WEIGHT)]
@@ -71,24 +74,33 @@ pub enum ResourcesUsedCommands {
         #[arg(long, help="Overrides the default ec_op weight", default_value = DEFAULT_EC_OP_WEIGHT)]
         ec_op_weight: f32,
 
-        #[arg(long, help="Overrides the step count from the transaction receipt")]
+        #[arg(long, help = "Overrides the step count from the transaction receipt")]
         steps: Option<String>,
 
-        #[arg(long, help="Overrides the pedersen count from the transaction receipt")]
+        #[arg(
+            long,
+            help = "Overrides the pedersen count from the transaction receipt"
+        )]
         pedersen: Option<String>,
 
-        #[arg(long, help="Overrides the range_check count from the transaction receipt")]
+        #[arg(
+            long,
+            help = "Overrides the range_check count from the transaction receipt"
+        )]
         range_check: Option<String>,
 
-        #[arg(long, help="Overrides the ecdsa count from the transaction receipt")]
+        #[arg(long, help = "Overrides the ecdsa count from the transaction receipt")]
         ecdsa: Option<String>,
 
-        #[arg(long, help="Overrides the bitwise count from the transaction receipt")]
+        #[arg(
+            long,
+            help = "Overrides the bitwise count from the transaction receipt"
+        )]
         bitwise: Option<String>,
 
-        #[arg(long, help="Overrides the ec_op count from the transaction receipt")]
+        #[arg(long, help = "Overrides the ec_op count from the transaction receipt")]
         ec_op: Option<String>,
-    }
+    },
 }
 
 /// Fees related commands.

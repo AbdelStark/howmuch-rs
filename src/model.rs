@@ -1,10 +1,10 @@
-use std::{str::FromStr};
+use std::str::FromStr;
 
 use ethers::types::U256;
 
 use eyre::Result;
 use jsonp::Pointer;
-use tabled::{Tabled};
+use tabled::Tabled;
 
 #[derive(Tabled, Copy, Clone)]
 pub struct ResourcesUsed {
@@ -52,12 +52,22 @@ impl TransactionReceipt {
 
         let category = "calls";
         let steps = exec_resources["n_steps"].as_f32().unwrap_or(0.0);
-        let range_check = instance_counter["range_check_builtin"].as_f32().unwrap_or(0.0);
+        let range_check = instance_counter["range_check_builtin"]
+            .as_f32()
+            .unwrap_or(0.0);
         let pedersen = instance_counter["pedersen_builtin"].as_f32().unwrap_or(0.0);
         let bitwise = instance_counter["bitwise_builtin"].as_f32().unwrap_or(0.0);
         let ecdsa = instance_counter["ecdsa_builtin"].as_f32().unwrap_or(0.0);
         let ec_op = instance_counter["ec_op_builtin"].as_f32().unwrap_or(0.0);
-        Ok(ResourcesUsed::new(category, steps, pedersen, range_check, bitwise, ecdsa, ec_op))
+        Ok(ResourcesUsed::new(
+            category,
+            steps,
+            pedersen,
+            range_check,
+            bitwise,
+            ecdsa,
+            ec_op,
+        ))
     }
 }
 

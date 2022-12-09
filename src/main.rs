@@ -3,8 +3,8 @@ use eyre::Result;
 use howmuch_rs::{
     cli::{Cli, Commands, FeesSubCommands, ResourcesUsedCommands},
     estimate_cost_on_network,
-    resources::get_resources_used,
     model::ResourcesUsed,
+    resources::get_resources_used,
 };
 
 fn main() -> Result<()> {
@@ -32,10 +32,38 @@ fn main() -> Result<()> {
             }
         },
         Commands::Resources(resources_commands) => match &resources_commands.command {
-            ResourcesUsedCommands::Recap { tx_hash, source_network_gateway_url , transaction_file, steps_weight, pedersen_weight, range_check_weight, ecdsa_weight, bitwise_weight, ec_op_weight, steps, pedersen, range_check, ecdsa, bitwise, ec_op} => {
-                let weights = ResourcesUsed::new("weight", *steps_weight, *pedersen_weight, *range_check_weight, *ecdsa_weight, *bitwise_weight, *ec_op_weight);
+            ResourcesUsedCommands::Recap {
+                tx_hash,
+                source_network_gateway_url,
+                transaction_file,
+                steps_weight,
+                pedersen_weight,
+                range_check_weight,
+                ecdsa_weight,
+                bitwise_weight,
+                ec_op_weight,
+                steps,
+                pedersen,
+                range_check,
+                ecdsa,
+                bitwise,
+                ec_op,
+            } => {
+                let weights = ResourcesUsed::new(
+                    "weight",
+                    *steps_weight,
+                    *pedersen_weight,
+                    *range_check_weight,
+                    *ecdsa_weight,
+                    *bitwise_weight,
+                    *ec_op_weight,
+                );
 
-                let mut resources_used = get_resources_used(tx_hash.as_ref().map(|x| x.as_ref()), source_network_gateway_url.as_ref().map(|x| x.as_ref()), transaction_file.as_ref().map(|x| x.as_ref()))?;
+                let mut resources_used = get_resources_used(
+                    tx_hash.as_ref().map(|x| x.as_ref()),
+                    source_network_gateway_url.as_ref().map(|x| x.as_ref()),
+                    transaction_file.as_ref().map(|x| x.as_ref()),
+                )?;
                 resources_used.update(steps, pedersen, range_check, ecdsa, bitwise, ec_op);
 
                 let table = resources_used.to_table(&weights);
