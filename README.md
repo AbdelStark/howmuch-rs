@@ -74,6 +74,18 @@ RUST_LOG=debug howmuch-rs fees estimate-on-network \
 --destination-block-number=15925
 ```
 
+### Print a summary of the resources used
+```bash
+howmuch-rs fees summary \
+--tx-hash=0x073251e7ff3843c4954aa2e7f38d8c29034e34a1ddbaeb1e62605ec10ca22367
+```
+
+or with a file:
+```bash
+howmuch-rs fees summary \
+--transaction_file tests/example.json
+```
+
 ## Authors & contributors
 
 For a full list of all authors and contributors, see [the contributors page](https://github.com/abdelhamidbakhta/starknet-howmuch-rs/contributors).
