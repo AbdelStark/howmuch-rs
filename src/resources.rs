@@ -62,7 +62,7 @@ impl CairoResources {
         ]
         .iter()
         .max_by(|&&x, &y| x.total_cmp(y))
-        .unwrap()
+        .unwrap_or(&0.0)
     }
 
     pub fn update(
@@ -76,27 +76,27 @@ impl CairoResources {
     ) {
         self.steps = steps
             .as_ref()
-            .map(|x| x.parse().unwrap())
+            .map(|x| x.parse().expect("Invalid steps number"))
             .unwrap_or(self.steps);
         self.pedersen = pedersen
             .as_ref()
-            .map(|x| x.parse().unwrap())
+            .map(|x| x.parse().expect("Invalid pedersen number"))
             .unwrap_or(self.pedersen);
         self.range_check = range_check
             .as_ref()
-            .map(|x| x.parse().unwrap())
+            .map(|x| x.parse().expect("Invalid range_check number"))
             .unwrap_or(self.range_check);
         self.ecdsa = ecdsa
             .as_ref()
-            .map(|x| x.parse().unwrap())
+            .map(|x| x.parse().expect("Invalid ecdsa number"))
             .unwrap_or(self.ecdsa);
         self.bitwise = bitwise
             .as_ref()
-            .map(|x| x.parse().unwrap())
+            .map(|x| x.parse().expect("Invalid bitwise number"))
             .unwrap_or(self.bitwise);
         self.ec_op = ec_op
             .as_ref()
-            .map(|x| x.parse().unwrap())
+            .map(|x| x.parse().expect("Invalid ec_op number"))
             .unwrap_or(self.ec_op);
     }
 
