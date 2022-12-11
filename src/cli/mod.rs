@@ -4,6 +4,7 @@ pub const DEFAULT_SOURCE_NETWORK_GATEWAY_URL: &str = "https://alpha4-2.starknet.
 pub const DEFAULT_DESTINATION_NETWORK_GATEWAY_URL: &str =
     "https://alpha-mainnet.starknet.io/feeder_gateway";
 
+// See https://docs.starknet.io/documentation/architecture_and_concepts/Fees/fee-mechanism/
 pub const DEFAULT_STEPS_WEIGHT: &str = "0.05";
 pub const DEFAULT_PEDERSEN_WEIGHT: &str = "1.6";
 pub const DEFAULT_RANGE_CHECK_WEIGHT: &str = "0.8";
