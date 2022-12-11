@@ -68,8 +68,8 @@ pub enum FeesSubCommands {
         #[arg(short, long, value_name = "TX_HASH")]
         tx_hash: Option<String>,
 
-        #[arg(long, value_name = "SOURCE_NETWORK_GATEWAY_URL", default_value = DEFAULT_SOURCE_NETWORK_GATEWAY_URL)]
-        source_network_gateway_url: Option<String>,
+        #[arg(long, default_value = DEFAULT_SOURCE_NETWORK_GATEWAY_URL)]
+        gateway_url: Option<String>,
 
         #[arg(
             long,

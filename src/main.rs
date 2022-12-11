@@ -31,7 +31,7 @@ fn main() -> Result<()> {
             }
             FeesSubCommands::Summary {
                 tx_hash,
-                source_network_gateway_url,
+                gateway_url,
                 transaction_file,
                 steps_weight,
                 pedersen_weight,
@@ -58,7 +58,7 @@ fn main() -> Result<()> {
 
                 let mut resources_used = get_resources_used(
                     tx_hash.as_ref().map(|x| x.as_ref()),
-                    source_network_gateway_url.as_ref().map(|x| x.as_ref()),
+                    gateway_url.as_ref().map(|x| x.as_ref()),
                     transaction_file.as_ref().map(|x| x.as_ref()),
                 )?;
                 resources_used.update(steps, pedersen, range_check, ecdsa, bitwise, ec_op);
