@@ -1,10 +1,9 @@
 use clap::Parser;
 use eyre::Result;
 use howmuch_rs::{
-    cli::{Cli, Commands, FeesSubCommands, ResourcesUsedCommands},
+    cli::{Cli, Commands, FeesSubCommands},
     estimate_cost_on_network,
-    model::ResourcesUsed,
-    resources::get_resources_used,
+    resources::{get_resources_used, Weights},
 };
 
 fn main() -> Result<()> {
@@ -30,9 +29,7 @@ fn main() -> Result<()> {
                 )?;
                 println!("{} ETH", actual_fees_on_destination_network);
             }
-        },
-        Commands::Resources(resources_commands) => match &resources_commands.command {
-            ResourcesUsedCommands::Recap {
+            FeesSubCommands::Summary {
                 tx_hash,
                 source_network_gateway_url,
                 transaction_file,
@@ -49,7 +46,7 @@ fn main() -> Result<()> {
                 bitwise,
                 ec_op,
             } => {
-                let weights = ResourcesUsed::new(
+                let weights = Weights::new(
                     "weight",
                     *steps_weight,
                     *pedersen_weight,

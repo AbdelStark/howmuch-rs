@@ -26,24 +26,45 @@ pub enum Commands {
     /// Ethereum related subcommands
     #[command(about = "Fees related subcommands")]
     Fees(FeesCommands),
-
-    /// TODO
-    #[command(about = "Limiting Factor")]
-    Resources(ResourcesUsed),
 }
 
-/// TODO
+/// Fees related commands.
 #[derive(Parser, Debug)]
-pub struct ResourcesUsed {
-    /// TODO
+pub struct FeesCommands {
+    /// Ethereum related subcommands.
     #[command(subcommand)]
-    pub command: ResourcesUsedCommands,
+    pub command: FeesSubCommands,
 }
 
+/// Fees related subcommands.
 #[derive(Subcommand, Debug)]
-pub enum ResourcesUsedCommands {
+pub enum FeesSubCommands {
+    /// Estimate fee from a network to another.
+    EstimateOnNetwork {
+        /// The transaction hash on the source network.
+        #[arg(short, long, value_name = "TX_HASH")]
+        tx_hash: String,
+        /// The source network gateway URL.
+        /// If not provided, the default is goerli 2 testnet.
+        #[arg(long, value_name = "SOURCE_NETWORK_GATEWAY_URL", default_value = DEFAULT_SOURCE_NETWORK_GATEWAY_URL)]
+        source_network_gateway_url: String,
+        /// The destination network gateway URL.
+        /// If not provided, the default is mainnet.
+        /// If the same as the source network, it will be ignored.
+        #[arg(long, value_name = "DESTINATION_NETWORK_GATEWAY_URL", default_value = DEFAULT_DESTINATION_NETWORK_GATEWAY_URL)]
+        destination_network_gateway_url: String,
+        /// The source block number.
+        /// If not provided, the default is the latest block.
+        #[arg(long, value_name = "SOURCE_BLOCK_NUMBER")]
+        source_block_number: Option<u32>,
+        /// The destination block number.
+        /// If not provided, the default is the latest block.
+        #[arg(long, value_name = "DESTINATION_BLOCK_NUMBER")]
+        destination_block_number: Option<u32>,
+    },
     /// Output a recap of used resources
-    Recap {
+    // TODO: Ideally find a way to have either `(tx_hash && source_network_gateway_url) || transaction_file` as mandatory args
+    Summary {
         #[arg(short, long, value_name = "TX_HASH")]
         tx_hash: Option<String>,
 
@@ -100,41 +121,5 @@ pub enum ResourcesUsedCommands {
 
         #[arg(long, help = "Overrides the ec_op count from the transaction receipt")]
         ec_op: Option<String>,
-    },
-}
-
-/// Fees related commands.
-#[derive(Parser, Debug)]
-pub struct FeesCommands {
-    /// Ethereum related subcommands.
-    #[command(subcommand)]
-    pub command: FeesSubCommands,
-}
-
-/// Fees related subcommands.
-#[derive(Subcommand, Debug)]
-pub enum FeesSubCommands {
-    /// Estimate fee from a network to another.
-    EstimateOnNetwork {
-        /// The transaction hash on the source network.
-        #[arg(short, long, value_name = "TX_HASH")]
-        tx_hash: String,
-        /// The source network gateway URL.
-        /// If not provided, the default is goerli 2 testnet.
-        #[arg(long, value_name = "SOURCE_NETWORK_GATEWAY_URL", default_value = DEFAULT_SOURCE_NETWORK_GATEWAY_URL)]
-        source_network_gateway_url: String,
-        /// The destination network gateway URL.
-        /// If not provided, the default is mainnet.
-        /// If the same as the source network, it will be ignored.
-        #[arg(long, value_name = "DESTINATION_NETWORK_GATEWAY_URL", default_value = DEFAULT_DESTINATION_NETWORK_GATEWAY_URL)]
-        destination_network_gateway_url: String,
-        /// The source block number.
-        /// If not provided, the default is the latest block.
-        #[arg(long, value_name = "SOURCE_BLOCK_NUMBER")]
-        source_block_number: Option<u32>,
-        /// The destination block number.
-        /// If not provided, the default is the latest block.
-        #[arg(long, value_name = "DESTINATION_BLOCK_NUMBER")]
-        destination_block_number: Option<u32>,
     },
 }

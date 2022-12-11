@@ -1,27 +1,24 @@
-use crate::model::{ResourcesUsed, TransactionReceipt};
+use crate::model::TransactionReceipt;
 use crate::query_tx_receipt;
 use eyre::Result;
+use tabled::Tabled;
 use tabled::{Alignment, Panel, Style, Table};
 
-pub fn get_resources_used(
-    tx_hash: Option<&str>,
-    source_network_gateway_url: Option<&str>,
-    transaction_file: Option<&str>,
-) -> Result<ResourcesUsed> {
-    let tx_receipt = match (tx_hash, source_network_gateway_url, transaction_file) {
-        (_, _, Some(filename)) => TransactionReceipt::try_from_file(filename)?,
-        (Some(hash), Some(url), None) => query_tx_receipt(hash, url)?,
-        (_, _, _) => {
-            return Err(eyre::eyre!(
-                "Provide either a filename or a transaction_hash and source network gateway url"
-            ));
-        }
-    };
+pub type Weights = CairoResources;
 
-    tx_receipt.resources_used()
+/// List of all the different resources a transaction can use
+#[derive(Tabled, Copy, Clone)]
+pub struct CairoResources {
+    pub category: &'static str,
+    pub steps: f32,
+    pub pedersen: f32,
+    pub range_check: f32,
+    pub ecdsa: f32,
+    pub bitwise: f32,
+    pub ec_op: f32,
 }
 
-impl ResourcesUsed {
+impl CairoResources {
     pub fn new(
         category: &'static str,
         steps: f32,
@@ -42,7 +39,7 @@ impl ResourcesUsed {
         }
     }
 
-    fn extract_fee(&self, weights: &ResourcesUsed) -> Self {
+    fn extract_fee(&self, weights: &Self) -> Self {
         Self {
             category: "fee",
             steps: self.steps * weights.steps,
@@ -103,7 +100,7 @@ impl ResourcesUsed {
             .unwrap_or(self.ec_op);
     }
 
-    pub fn to_table(&self, weights: &ResourcesUsed) -> String {
+    pub fn to_table(&self, weights: &Weights) -> String {
         let fee = self.extract_fee(weights);
 
         let mut table = Table::new(vec![*self, *weights, fee]);
@@ -116,4 +113,22 @@ impl ResourcesUsed {
             .with(Style::modern());
         table.to_string()
     }
+}
+
+pub fn get_resources_used(
+    tx_hash: Option<&str>,
+    source_network_gateway_url: Option<&str>,
+    transaction_file: Option<&str>,
+) -> Result<CairoResources> {
+    let tx_receipt = match (tx_hash, source_network_gateway_url, transaction_file) {
+        (_, _, Some(filename)) => TransactionReceipt::try_from_file(filename)?,
+        (Some(hash), Some(url), None) => query_tx_receipt(hash, url)?,
+        (_, _, _) => {
+            return Err(eyre::eyre!(
+                "Provide either a filename or a transaction_hash and source network gateway url"
+            ));
+        }
+    };
+
+    tx_receipt.resources_used()
 }
