@@ -63,7 +63,7 @@ pub enum FeesSubCommands {
         destination_block_number: Option<u32>,
     },
     /// Output a recap of used resources
-    // TODO: Ideally find a way to have either `(tx_hash && source_network_gateway_url) || transaction_file` as mandatory args
+    // TODO: Ideally find a way to have either `tx_hash || transaction_file` as mandatory args
     Summary {
         #[arg(short, long, value_name = "TX_HASH")]
         tx_hash: Option<String>,
