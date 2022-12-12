@@ -46,7 +46,6 @@
 //! ```
 pub mod cli;
 pub mod model;
-pub mod resources;
 use ethers::{types::U256, utils};
 use eyre::Result;
 use log::debug;
