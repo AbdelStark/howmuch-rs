@@ -63,7 +63,7 @@ pub enum FeesSubCommands {
         #[arg(long, value_name = "DESTINATION_BLOCK_NUMBER")]
         destination_block_number: Option<u32>,
         /// Allows the output to display the dollar cost estimation
-        #[arg(long, value_name = "USD", default_value = "false")]
+        #[arg(long, value_name = "BOOL", default_value = "false")]
         usd: Option<bool>,
     },
     /// Output a recap of used resources
