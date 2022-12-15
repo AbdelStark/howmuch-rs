@@ -18,12 +18,14 @@
 //! let destination_network_gateway_url = "https://alpha-mainnet.starknet.io/feeder_gateway";
 //! let source_block_number = Some(21410);
 //! let destination_block_number = Some(15925);
+//! let usd = Some(true);
 //! let fees = estimate_cost_on_network(
 //!   tx_hash,
 //!   &source_network_gateway_url,
 //!   &destination_network_gateway_url,
 //!   &source_block_number,
-//!   &destination_block_number
+//!   &destination_block_number,
+//!   &usd
 //! ).unwrap();
 //! println!("{}", fees);
 //! ```
@@ -70,12 +72,14 @@ use model::{Block, Transaction, TransactionReceipt};
 /// let destination_network_gateway_url = "https://alpha-mainnet.starknet.io/feeder_gateway";
 /// let source_block_number = Some(21410);
 /// let destination_block_number = Some(15925);
+/// let usd = Some(true);
 /// let fees = estimate_cost_on_network(
 ///   tx_hash,
 ///   &source_network_gateway_url,
 ///   &destination_network_gateway_url,
 ///   &source_block_number,
-///   &destination_block_number
+///   &destination_block_number,
+///   &usd
 /// ).unwrap();
 /// println!("{}", fees);
 /// ```
