@@ -19,6 +19,7 @@ fn main() -> Result<()> {
                 destination_network_gateway_url,
                 source_block_number,
                 destination_block_number,
+                usd,
             } => {
                 let actual_fees_on_destination_network = estimate_cost_on_network(
                     tx_hash,
@@ -26,8 +27,9 @@ fn main() -> Result<()> {
                     destination_network_gateway_url,
                     source_block_number,
                     destination_block_number,
+                    usd,
                 )?;
-                println!("{} ETH", actual_fees_on_destination_network);
+                println!("{}", actual_fees_on_destination_network);
             }
             FeesSubCommands::Summary {
                 tx_hash,
