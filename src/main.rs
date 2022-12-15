@@ -3,6 +3,7 @@ use eyre::Result;
 use howmuch_rs::{
     cli::{Cli, Commands, FeesSubCommands},
     estimate_cost_on_network,
+    resources::{get_resources_used, Weights},
 };
 
 fn main() -> Result<()> {
@@ -27,6 +28,43 @@ fn main() -> Result<()> {
                     destination_block_number,
                 )?;
                 println!("{} ETH", actual_fees_on_destination_network);
+            }
+            FeesSubCommands::Summary {
+                tx_hash,
+                gateway_url,
+                transaction_file,
+                steps_weight,
+                pedersen_weight,
+                range_check_weight,
+                ecdsa_weight,
+                bitwise_weight,
+                ec_op_weight,
+                steps,
+                pedersen,
+                range_check,
+                ecdsa,
+                bitwise,
+                ec_op,
+            } => {
+                let weights = Weights::new(
+                    "weight",
+                    *steps_weight,
+                    *pedersen_weight,
+                    *range_check_weight,
+                    *ecdsa_weight,
+                    *bitwise_weight,
+                    *ec_op_weight,
+                );
+
+                let mut resources_used = get_resources_used(
+                    tx_hash.as_ref().map(|x| x.as_ref()),
+                    gateway_url.as_ref().map(|x| x.as_ref()),
+                    transaction_file.as_ref().map(|x| x.as_ref()),
+                )?;
+                resources_used.update(steps, pedersen, range_check, ecdsa, bitwise, ec_op);
+
+                let table = resources_used.to_table(&weights);
+                println!("{}", table);
             }
         },
     }
