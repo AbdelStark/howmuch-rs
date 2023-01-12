@@ -18,12 +18,14 @@
 //! let destination_network_gateway_url = "https://alpha-mainnet.starknet.io/feeder_gateway";
 //! let source_block_number = Some(21410);
 //! let destination_block_number = Some(15925);
+//! let usd = Some(true);
 //! let fees = estimate_cost_on_network(
 //!   tx_hash,
 //!   &source_network_gateway_url,
 //!   &destination_network_gateway_url,
 //!   &source_block_number,
-//!   &destination_block_number
+//!   &destination_block_number,
+//!   &usd
 //! ).unwrap();
 //! println!("{}", fees);
 //! ```
@@ -45,6 +47,7 @@
 //! --destination-block-number 15925
 //! ```
 pub mod cli;
+pub mod currencies;
 pub mod model;
 pub mod resources;
 use ethers::{types::U256, utils};
@@ -69,12 +72,14 @@ use model::{Block, Transaction, TransactionReceipt};
 /// let destination_network_gateway_url = "https://alpha-mainnet.starknet.io/feeder_gateway";
 /// let source_block_number = Some(21410);
 /// let destination_block_number = Some(15925);
+/// let usd = Some(true);
 /// let fees = estimate_cost_on_network(
 ///   tx_hash,
 ///   &source_network_gateway_url,
 ///   &destination_network_gateway_url,
 ///   &source_block_number,
-///   &destination_block_number
+///   &destination_block_number,
+///   &usd
 /// ).unwrap();
 /// println!("{}", fees);
 /// ```
@@ -86,6 +91,7 @@ pub fn estimate_cost_on_network(
     destination_network_gateway_url: &str,
     source_block_number: &Option<u32>,
     destination_block_number: &Option<u32>,
+    usd: &Option<bool>,
 ) -> Result<String> {
     let source_block_number = match source_block_number {
         Some(block_number) => block_number.to_string(),
@@ -118,9 +124,14 @@ pub fn estimate_cost_on_network(
         "transaction actual fee on destination network: {}",
         destination_tx_actual_fee
     );
-    let destination_tx_actual_fee_in_eth = utils::format_units(destination_tx_actual_fee, "ether")?;
-
-    Ok(destination_tx_actual_fee_in_eth)
+    let output = utils::format_units(destination_tx_actual_fee, "ether")?;
+    match usd {
+        None | Some(false) => Ok(format!("{output} ETH")),
+        Some(true) => Ok(format!(
+            "{output} ETH ({})",
+            &crate::currencies::format_dollar_cost(destination_tx_actual_fee)
+        )),
+    }
 }
 
 /// Query a transaction from a network.

@@ -62,6 +62,9 @@ pub enum FeesSubCommands {
         /// If not provided, the default is the latest block.
         #[arg(long, value_name = "DESTINATION_BLOCK_NUMBER")]
         destination_block_number: Option<u32>,
+        /// Allows the output to display the dollar cost estimation
+        #[arg(long, value_name = "BOOL", default_value = "false")]
+        usd: Option<bool>,
     },
     /// Output a recap of used resources
     // TODO: Ideally find a way to have either `tx_hash || transaction_file` as mandatory args
